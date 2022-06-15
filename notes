@@ -279,7 +279,7 @@ cat_note() {
 }
 
 usage() {
-  local name=$(basename $0)
+  local name="${0##*/}"
 	cat <<EOF
 $name is a command line note taking tool.
 
@@ -307,7 +307,7 @@ EOF
 }
 
 version() {
-  local name=$(basename $0)
+  local name="${0##*/}"
 	cat <<EOF
 $name $notes_version
 EOF
