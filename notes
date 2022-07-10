@@ -110,7 +110,7 @@ generate_name() {
     local resolved_name=$format_string
     while [[ -e "$notes_dir/$resolved_name.$NOTES_EXT" ]]
     do
-        append_num=$[$append_num+1]
+        append_num=$(( append_num++ ))
         resolved_name=$format_string.$append_num
     done
     printf $resolved_name
@@ -369,7 +369,7 @@ main() {
     shift
 
     $cmd "$@"
-    ret=$[$ret+$?]
+    ret=$(( $ret + $? ))
     exit $ret
 }
 main "$@"
