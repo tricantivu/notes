@@ -119,13 +119,10 @@ generate_name() {
 
 new_note() {
     local note_name="$*"
-    if [[ $note_name == "" ]]; then
-         note_name="$(generate_name)"
-    fi
 
-    if echo "$note_name" | grep "/$" &> /dev/null; then
-        note_name="${note_name}/$(generate_name)"
-    fi
+    [[ -z $note_name ]] && note_name="$(generate_name)"
+
+    [[ "$note_name" =~ /$ ]] && note_name="${note_name}/$(generate_name)"
 
     mkdir -p "$(dirname "$notes_dir/$note_name")"
 
