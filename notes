@@ -177,7 +177,7 @@ get_full_note_path() {
         note_path="$notes_dir/$note_path"
     elif [ -f "$notes_dir/$note_path.$NOTES_EXT" ]; then # note with this name and default extension exists
         note_path="$notes_dir/$note_path.$NOTES_EXT"
-    elif echo "$note_path" | grep '[.][A-Za-z]\{1,4\}$' &>/dev/null; then # given name has a 1-4 letter extension
+    elif [[ "$note_path" =~ [.][A-Za-z]{1,4}$ ]]; then # given name has a 1-4 letter extension
         note_path="$notes_dir/$note_path"
     else
         if [[ "$note_path" != *.$NOTES_EXT ]]; then
