@@ -16,7 +16,7 @@ notes="./notes"
   run $notes --help
 
   assert_success
-  assert_line "Usage:" 
+  assert_line "Usage:"
 }
 
 @test "Should print help if no arguments are provided, and exit unsuccessfully" {

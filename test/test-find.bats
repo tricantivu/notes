@@ -17,7 +17,7 @@ notes="./notes"
 
   assert_failure
   echo $output
-  assert_equal $(echo $output | wc -w) 0 
+  assert_equal $(echo $output | wc -w) 0
 }
 
 @test "Should show all notes found if no pattern is provided to find" {

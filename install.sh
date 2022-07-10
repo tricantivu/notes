@@ -16,7 +16,7 @@ function assertInstalled() {
 echo "Checking for dependencies..."
     assertInstalled bash curl tar mktemp install make
 
-# Variable Definitions go here. 
+# Variable Definitions go here.
 user_home=`eval echo ~$SUDO_USER`
 extract_dir=$(mktemp -d /tmp/notes.XXXXX)
 
