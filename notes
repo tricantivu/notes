@@ -7,7 +7,7 @@ notes_version="1.0.1"
 QUICKNOTE_FORMAT="quicknote-%Y-%m-%d"
 NOTES_EXT="md"
 # Look for configuration file at ~/.config/notes/config and use it
-if [ -f ~/.config/notes/config ]; then
+if [[ -f ~/.config/notes/config ]]; then
     . ~/.config/notes/config
 fi
 
@@ -23,7 +23,7 @@ mkdir -p "$notes_dir" &> /dev/null || {
 }
 
 # If no $EDITOR, look for `editor` (symlink on debian/ubuntu/etc)
-if [ -z "$EDITOR" ] && type editor &>/dev/null; then
+if [[ -z "$EDITOR" ]] && type editor &>/dev/null; then
     EDITOR=editor
 fi
 
@@ -36,7 +36,7 @@ ls_notes() {
     local ls_result=$?
     local formatted_output
 
-    if [ $# -gt 0 ]; then
+    if [[ $# -gt 0 ]]; then
         local path_prefix=$(printf "${*%/}" | sed -e 's/[]\/$*.^|[]/\\&/g')
         formatted_output=$(printf "$ls_output" | sed -E "s/^/$path_prefix\//")
     else
@@ -52,7 +52,7 @@ ls_notes() {
 }
 
 search_filenames_and_contents() {
-    if [ "$#" -gt 0 ]; then
+    if [[ "$#" -gt 0 ]]; then
         find_output=$(find "$notes_dir" -type f -exec bash -c \
             "shopt -s nocasematch
             grep -il \"$*\" \"{}\" || if [[ \"{}\" =~ \"$*\" ]]; then
@@ -87,7 +87,7 @@ find_notes() {
 }
 
 grep_notes() {
-    if [ ! "$#" -gt 0 ]; then
+    if [[ ! "$#" -gt 0 ]]; then
         printf "Grep requires a pattern, but none was provided.\n"
         return 1
     fi
@@ -137,7 +137,7 @@ remove_note() {
         shift
     fi
 
-    if [ ! "$#" -gt 0 ]; then
+    if [[ ! "$#" -gt 0 ]]; then
         printf "Remove requires a file or folder, but none was provided.\n"
         return 1
     fi
@@ -145,7 +145,7 @@ remove_note() {
     local note_name="$*"
     local to_remove="$notes_dir/$note_name"
 
-    if [ ! -f "$to_remove" ] && [ -f "$notes_dir/$note_name.$NOTES_EXT" ]; then
+    if [[ ! -f "$to_remove" ]] && [[ -f "$notes_dir/$note_name.$NOTES_EXT" ]]; then
         # append default extension only if no file exists with exact filename given
         to_remove="$notes_dir/$note_name.$NOTES_EXT"
     fi
@@ -169,11 +169,11 @@ get_full_note_path() {
     local note_path=$1
 
     # first check if file exists
-    if [ -f "$note_path" ]; then # note path given is good absolute or relative path
+    if [[ -f "$note_path" ]]; then # note path given is good absolute or relative path
         note_path="$note_path"
-    elif [ -f "$notes_dir/$note_path" ]; then # exists in notes_dir
+    elif [[ -f "$notes_dir/$note_path" ]]; then # exists in notes_dir
         note_path="$notes_dir/$note_path"
-    elif [ -f "$notes_dir/$note_path.$NOTES_EXT" ]; then # note with this name and default extension exists
+    elif [[ -f "$notes_dir/$note_path.$NOTES_EXT" ]]; then # note with this name and default extension exists
         note_path="$notes_dir/$note_path.$NOTES_EXT"
     elif [[ "$note_path" =~ [.][A-Za-z]{1,4}$ ]]; then # given name has a 1-4 letter extension
         note_path="$notes_dir/$note_path"
@@ -195,7 +195,7 @@ open_note() {
         return
     fi
 
-    if [ -z "$EDITOR" ]; then
+    if [[ -z "$EDITOR" ]]; then
         printf "Please set \$EDITOR to edit notes\n"
         exit 1
     fi
@@ -315,7 +315,7 @@ main() {
     local ret=0
     local cmd=""
 
-    if [ -z "$1" ]; then
+    if [[ -z "$1" ]]; then
         printf "No command specified\n\n"
         usage
         exit 1
