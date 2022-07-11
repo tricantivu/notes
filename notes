@@ -18,7 +18,7 @@ escaped_notes_dir="$(sed -e 's/[]\/$*.^|[]/\\&/g' <<< "$notes_dir")"
 # Make sure the notes directory actually exists, and create it if it doesn't
 mkdir -p "$notes_dir" &> /dev/null || {
 
-    echo "Could not create directory $notes_dir, please update your \$NOTES_DIRECTORY" >&2
+    printf 'Could not create directory %s, please update your %s\n' "$notes_dir" '$NOTES_DIRECTORY' >&2
     exit 1
 }
 
@@ -203,7 +203,7 @@ open_note() {
     fi
 
     if [[ -z "$EDITOR" ]]; then
-        printf "Please set \$EDITOR to edit notes\n"
+        printf "Please set %s to edit notes\n" '$EDITOR'
         exit 1
     fi
 
