@@ -13,7 +13,7 @@ fi
 
 configured_dir=${NOTES_DIRECTORY%/} # Remove trailing slashes
 notes_dir="${configured_dir:-$HOME/notes}"
-escaped_notes_dir="$(printf "$notes_dir" | sed -e 's/[]\/$*.^|[]/\\&/g')"
+escaped_notes_dir="$(sed -e 's/[]\/$*.^|[]/\\&/g' <<< "$notes_dir")"
 
 # Make sure the notes directory actually exists, and create it if it doesn't
 mkdir -p "$notes_dir" &> /dev/null || {
@@ -37,8 +37,8 @@ ls_notes() {
     local formatted_output
 
     if [[ $# -gt 0 ]]; then
-        local path_prefix=$(printf "${*%/}" | sed -e 's/[]\/$*.^|[]/\\&/g')
-        formatted_output=$(printf "$ls_output" | sed -E "s/^/$path_prefix\//")
+        local path_prefix=$(sed -e 's/[]\/$*.^|[]/\\&/g' <<< "${*%/}")
+        formatted_output=$(sed -E "s/^/$path_prefix\//" <<< "$ls_output")
     else
         formatted_output=$ls_output
     fi
