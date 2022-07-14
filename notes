@@ -1,28 +1,27 @@
 #!/usr/bin/env bash
 
-# Version
 notes_version="1.0.1"
 
-# Default Date string before config
+# Default date string before configuration file.
 QUICKNOTE_FORMAT="quicknote-%Y-%m-%d"
 NOTES_EXT="md"
-# Look for configuration file at ~/.config/notes/config and use it
+
+# Use configuration file if found.
 if [[ -f ~/.config/notes/config ]]; then
     . ~/.config/notes/config
 fi
 
-configured_dir=${NOTES_DIRECTORY%/} # Remove trailing slashes
+configured_dir=${NOTES_DIRECTORY%/}                                                         # Remove trailing slashes
 notes_dir="${configured_dir:-$HOME/notes}"
 escaped_notes_dir="$(sed -e 's/[]\/$*.^|[]/\\&/g' <<< "$notes_dir")"
 
-# Make sure the notes directory actually exists, and create it if it doesn't
 mkdir -p "$notes_dir" &> /dev/null || {
 
     printf 'Could not create directory %s, please update your %s\n' "$notes_dir" '$NOTES_DIRECTORY' >&2
     exit 1
 }
 
-# If no $EDITOR, look for `editor` (symlink on debian/ubuntu/etc)
+# If no $EDITOR, look for `editor` (symlink on Debian, Ubuntu, etc.)
 if [[ -z "$EDITOR" ]] && type editor &>/dev/null; then
     EDITOR=editor
 fi
@@ -175,14 +174,14 @@ handle_multiple_notes() {
 get_full_note_path() {
     local note_path=$1
 
-    # first check if file exists
-    if [[ -f "$note_path" ]]; then # note path given is good absolute or relative path
+    # First check if file exists.
+    if [[ -f "$note_path" ]]; then                                                          # Note path given is good absolute or relative path.
         note_path="$note_path"
-    elif [[ -f "$notes_dir/$note_path" ]]; then # exists in notes_dir
+    elif [[ -f "$notes_dir/$note_path" ]]; then                                             # Exists in notes_dir.
         note_path="$notes_dir/$note_path"
-    elif [[ -f "$notes_dir/$note_path.$NOTES_EXT" ]]; then # note with this name and default extension exists
+    elif [[ -f "$notes_dir/$note_path.$NOTES_EXT" ]]; then                                  # Note with this name and default extension exists.
         note_path="$notes_dir/$note_path.$NOTES_EXT"
-    elif [[ "$note_path" =~ [.][A-Za-z]{1,4}$ ]]; then # given name has a 1-4 letter extension
+    elif [[ "$note_path" =~ [.][A-Za-z]{1,4}$ ]]; then                                      # Given name has a 1-4 letter extension.
         note_path="$notes_dir/$note_path"
     else
         if [[ "$note_path" != *.$NOTES_EXT ]]; then
@@ -220,7 +219,6 @@ append_note() {
     local source_note_path=$( get_full_note_path "$1" )
     local to_append="${@:2}"
 
-    # If no note name was provided, exit
     if [[ -z "$1" ]]; then
         printf "Append requires a name, but none was provided.\n"
         exit 1
@@ -231,7 +229,7 @@ append_note() {
         mkdir -p "$(dirname "$source_note_path")"
     fi
 
-    # if to_append is empty, check stdin
+    # If to_append is empty, check STDIN
     if [[ -z "$to_append" ]] && [[ -p /dev/stdin ]]; then
         to_append=$(cat)
     fi
