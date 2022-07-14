@@ -43,7 +43,7 @@ ls_notes() {
         formatted_output=$ls_output
     fi
 
-    if [[ $ls_result == 0 && "$formatted_output" ]]; then
+    if [[ $ls_result -eq 0 && "$formatted_output" ]]; then
         printf "$formatted_output\n"
         return 0
     else
@@ -65,7 +65,7 @@ search_filenames_and_contents() {
     find_result=$?
     formatted_output=$(printf "$find_output" | without_notes_dir | sort)
 
-    if [[ $find_result == 0 && "$formatted_output" ]]; then
+    if [[ $find_result -eq 0 && "$formatted_output" ]]; then
         printf "$formatted_output\n"
         return 0
     else
@@ -78,7 +78,7 @@ find_notes() {
     local find_result=$?
     local formatted_output=$(printf "$find_output" | without_notes_dir | sort)
 
-    if [[ $find_result == 0 && "$formatted_output" ]]; then
+    if [[ $find_result -eq 0 && "$formatted_output" ]]; then
         printf "$formatted_output\n"
         return 0
     else
@@ -100,7 +100,7 @@ grep_notes() {
     local grep_result=$?
     local formatted_output=$(printf "$grep_output" | without_notes_dir | sort)
 
-    if [[ $grep_result == 0 && "$formatted_output" ]]; then
+    if [[ $grep_result -eq 0 && "$formatted_output" ]]; then
         printf "$formatted_output\n"
         return 0
     else
