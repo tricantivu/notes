@@ -87,10 +87,14 @@ find_notes() {
 }
 
 grep_notes() {
-    if [[ ! "$#" -gt 0 ]]; then
+
+    (( $# )) || {
+
         printf "Grep requires a pattern, but none was provided.\n"
+
         return 1
-    fi
+    }
+
 
     local grep_output=$(grep -r "$notes_dir" -li -e "$*" 2>&1)
     local grep_result=$?
@@ -137,10 +141,13 @@ remove_note() {
         shift
     fi
 
-    if [[ ! "$#" -gt 0 ]]; then
+    (( $# )) || {
+
         printf "Remove requires a file or folder, but none was provided.\n"
+
         return 1
-    fi
+    }
+
 
     local note_name="$*"
     local to_remove="$notes_dir/$note_name"
