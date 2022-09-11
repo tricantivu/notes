@@ -23,10 +23,7 @@ mkdir -p "$notes_dir" &> /dev/null || {
 }
 
 # If no $EDITOR, look for `editor` (symlink on Debian, Ubuntu, etc.)
-if [[ -z "$EDITOR" ]] && type editor &>/dev/null; then
-
-    EDITOR=editor
-fi
+{ [[ -z "$EDITOR" ]] && type editor; } &> /dev/null && EDITOR=editor
 
 without_notes_dir() {
 
