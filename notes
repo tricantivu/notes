@@ -192,7 +192,7 @@ remove_note() {
 
     local to_remove="$notes_dir/$note_name"
 
-    if [[ ! -f "$to_remove" ]] && [[ -f "$notes_dir/$note_name.$NOTES_EXT" ]]; then
+    if [[ ! -f "$to_remove" && -f "$notes_dir/$note_name.$NOTES_EXT" ]]; then
 
         # append default extension only if no file exists with exact filename given
         to_remove="$notes_dir/$note_name.$NOTES_EXT"
@@ -298,7 +298,7 @@ append_note() {
     fi
 
     # If to_append is empty, check STDIN
-    if [[ -z "$to_append" ]] && [[ -p /dev/stdin ]]; then
+    if [[ -z "$to_append" && -p /dev/stdin ]]; then
 
         to_append=$(cat)
     fi
