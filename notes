@@ -416,62 +416,62 @@ main() {
     fi
 
     case "$1" in
-        "new"|"n" )
+        ("new"|"n")
 
             cmd="new_note"
-            ;;
-        "ls" )
+        ;;
+        ("ls")
 
             cmd="ls_notes"
-            ;;
-        "search"|"s" )
+        ;;
+        ("search"|"s")
 
             cmd="search_filenames_and_contents"
-            ;;
-        "find"|"f" )
+        ;;
+        ("find"|"f")
 
             cmd="find_notes"
-            ;;
-        "grep"|"g" )
+        ;;
+        ("grep"|"g")
 
             cmd="grep_notes"
-            ;;
-        "open"|"o" )
+        ;;
+        ("open"|"o")
 
             cmd="handle_multiple_notes open"
-            ;;
-        "append"|"a" )
+        ;;
+        ("append"|"a")
 
             cmd="append_note"
-            ;;
-        "mv" )
+        ;;
+        ("mv")
 
             cmd="move_note"
-            ;;
-        "rm" )
+        ;;
+        ("rm")
 
             cmd="remove_note"
-            ;;
-        "cat" )
+        ;;
+        ("cat")
 
             cmd="handle_multiple_notes cat"
-            ;;
-        --help | -help | -h )
+        ;;
+        (--help | -help | -h)
 
             cmd="usage"
-            ;;
-        --version | -version )
+        ;;
+        (--version | -version)
 
             cmd="version"
-            ;;
-        * )
+        ;;
+        (*)
 
             printf "$1 is not a recognized notes command.\n\n"
 
             cmd="usage"
 
             ret=1
-            ;;
+        ;;
     esac
 
     shift
