@@ -297,7 +297,7 @@ append_note() {
     # If to_append is empty, check STDIN
     if [[ -z "$to_append" && -p /dev/stdin ]]; then
 
-        to_append=$(cat)
+        to_append=$(< /dev/stdin)
     fi
 
     # If to_append is *still* empty, report an error
