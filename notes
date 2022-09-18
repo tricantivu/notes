@@ -144,8 +144,8 @@ generate_name() {
     # Initial test has no append
     local resolved_name=$format_string
 
-    while [[ -e "$notes_dir/$resolved_name.$NOTES_EXT" ]]
-    do
+    while [[ -e "$notes_dir/$resolved_name.$NOTES_EXT" ]]; do
+
         append_num=$(( append_num++ ))
         resolved_name=$format_string.$append_num
     done
