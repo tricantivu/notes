@@ -23,7 +23,10 @@ mkdir -p "$notes_dir" &> /dev/null || {
 }
 
 # If no $EDITOR, look for `editor` (symlink on Debian, Ubuntu, etc.)
-{ [[ -z "$EDITOR" ]] && type editor; } &> /dev/null && EDITOR=editor
+[[ -v EDITOR ]] || {
+
+    type editor &> /dev/null && EDITOR=editor
+}
 
 without_notes_dir() {
 
@@ -257,12 +260,12 @@ open_note() {
         return
     fi
 
-    if [[ -z "$EDITOR" ]]; then
+    [[ -v EDITOR ]] || {
 
-        printf "Please set %s to edit notes\n" '$EDITOR'
+         printf "Please set %s to edit notes\n" '$EDITOR'
 
-        exit 1
-    fi
+         exit 1
+    }
 
     note_path=$( get_full_note_path "$note_path" )
 
