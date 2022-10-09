@@ -35,31 +35,36 @@ without_notes_dir() {
 
 ls_notes() {
 
-    local ls_output=$(ls -p "$notes_dir/$*" 2>&1 | grep -v "~$")
+    local notes=( "${notes_dir}"/* ) matched_notes=()
 
-    local ls_result=$?
+    # List with no pattern(s).
+    (( $# )) || {
 
-    local formatted_output
+        printf '%s\n' "${notes[@]##*/}"
 
-    if [[ $# -gt 0 ]]; then
+        return
+    }
 
-        local path_prefix=$(sed -e 's/[]\/$*.^|[]/\\&/g' <<< "${*%/}")
+    # List with pattern(s).
+    for note in "${notes_dir}"/*; do
 
-        formatted_output=$(sed -E "s/^/$path_prefix\//" <<< "$ls_output")
-    else
+        # Omit some paths.
+        [[ "${note}" =~ ~$ ]] && {
 
-        formatted_output=$ls_output
-    fi
+            continue
+        }
 
-    if [[ $ls_result -eq 0 && "$formatted_output" ]]; then
+        # Get notes matching pattern (unquoted to allow globbing).
+        [[ "${notes_dir}"/$* == "${note%.*}" ]] && {
 
-        printf "$formatted_output\n"
+            matched_notes+=( "${note}" )
+        }
+    done
 
-        return 0
-    else
+    # Fail when no matches are found.
+    (( "${#matched_notes[@]}" )) || return 2
 
-        return 2
-    fi
+    printf '%s\n' "${matched_notes[@]##*/}"
 }
 
 search_filenames_and_contents() {
@@ -119,7 +124,6 @@ grep_notes() {
 
         return 1
     }
-
 
     local grep_output=$(grep -Elir -- "$*" "$notes_dir" 2>&1)
 
